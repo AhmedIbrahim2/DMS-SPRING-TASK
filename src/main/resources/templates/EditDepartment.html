@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+</head>
+<body>
+<h2>Edit Department</h2>
+<div th:if="${error}" style="color: red;">Duplicated Department Code </div>
+
+<form action="/Department/saves" method="post" th:object="${Department}">
+    <div>
+        <input type="hidden" id="departmentId" name="departmentId" th:field="*{departmentId}">
+
+
+        <label for="codeDepartment">Department Code:</label>
+        <input type="text" id="codeDepartment" name="codeDepartment" th:field="*{codeDepartment}">
+    </div>
+
+
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:field="*{name}">
+    </div>
+
+    <div>
+        <label for="description">Birthdate:</label>
+        <input type="text" id="description" name="description" th:field="*{description}">
+    </div>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<br>
+<a th:href="@{/Department/getAllDepartment}">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Department Registration</title>
+</head>
+<body>
+<h2>Department Registration</h2>
+
+<!-- Display error if exists -->
+<div th:if="${error}" style="color: red;">Duplicated Code </div>
+
+<form action="/Department/save" method="post" >
+
+    <div>
+        <label for="codeDepartment">Department Code:</label>
+        <input type="text" id="codeDepartment" name="codeDepartment" required>
+    </div>
+
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"  required>
+    </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <input type="tel" id="description" name="description"  required>
+    </div>
+
+    <button type="submit">Register Department</button>
+</form>
+
+<br>
+<a th:href="@{/Department/getAllDepartment}">Back to Home</a>
+</body>
+</html>

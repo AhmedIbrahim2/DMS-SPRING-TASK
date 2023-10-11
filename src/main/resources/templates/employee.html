@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Page</title>
+</head>
+<body>
+<h2>Employee Page</h2>
+<a th:href="@{/Employee/employeeRegister}" class="btn btn-primary">Add Employee</a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Birthdate</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Salary</th>
+        <th>Department</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of employees -->
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.codeEmployee}"></td>
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.birthDate}"></td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.phone}"></td>
+        <td th:text="${employee.salary}"></td>
+        <td th:text="${employee.departmentName}"></td>
+        <td>
+            <a th:href="@{/Employee/editEmployee/{id}(id=${employee.codeEmployee})}" class="btn btn-warning">Edit</a>
+            <a th:href="@{/Employee/deleteEmployee/{id}(id=${employee.codeEmployee})}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
