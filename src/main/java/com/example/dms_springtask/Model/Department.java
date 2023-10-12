@@ -18,7 +18,7 @@ class Department{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long departmentId;
 
-    @Column(unique = true)
+
     private Long codeDepartment ;
     public Long getDepartmentId() {
         return departmentId;

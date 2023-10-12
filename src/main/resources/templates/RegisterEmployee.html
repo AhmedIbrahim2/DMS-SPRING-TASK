@@ -3,57 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <title>Employee Registration</title>
+  <!-- Add Bootstrap CSS link -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 </head>
-<body>
+<body class="container mt-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active text-white" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" th:href="@{/Employee/getAllEmployee}">Employee</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" th:href="@{/Department/getAllDepartment}">Department</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
 <h2>Employee Registration</h2>
 
-<div th:if="${error}" style="color: red;">Duplicated Code </div>
+<div th:if="${error}" class="alert alert-danger">Duplicated Code</div>
 
+<form action="/Employee/save" method="post" class="mt-4">
 
-<form action="/Employee/save" method="post" >
-
-  <div>
+  <div class="form-group">
     <label for="codeEmployee">Employee Code:</label>
-    <input type="text" id="codeEmployee" name="codeEmployee" required>
+    <input type="text" id="codeEmployee" name="codeEmployee" class="form-control" required>
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" name="name" class="form-control" required>
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="birthdate">Birthdate:</label>
-    <input type="date" id="birthDate" name="birthDate" required>
+    <input type="date" id="birthDate" name="birthDate" class="form-control" required>
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="address">Address:</label>
-    <input type="text" id="address" name="address" required>
+    <input type="text" id="address" name="address" class="form-control" required>
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="phone">Phone:</label>
-    <input type="tel" id="phone" name="phone" required>
+    <input type="tel" id="phone" name="phone" class="form-control" required>
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="salary">Salary:</label>
-    <input type="number" id="salary" name="salary" required>
+    <input type="number" id="salary" name="salary" class="form-control" step="any" required>
   </div>
 
-  <div>
+  <div class="form-group">
     <label for="department">Department:</label>
-    <select id="department" name="department" >
+    <select id="department" name="department" class="form-control">
       <!-- You need to populate this dropdown with actual department options -->
-      <option th:each="dept : ${department}" th:value="${dept.getCodeDepartment()}" th:text="${dept.getCodeDepartment()}"></option>
+      <option th:each="dept : ${department}" th:value="${dept.getCodeDepartment()}" th:text="${dept.getCodeDepartment()+ ' - ' + dept.getName()}"></option>
     </select>
   </div>
 
-  <button type="submit">Register Employee</button>
+  <button type="submit" class="btn btn-primary">Register Employee</button>
 </form>
 
 <br>
-<a th:href="@{/Employee}">Back to Home</a>
+<a th:href="@{/Employee/getAllEmployee}" class="btn btn-secondary">Back to Home</a>
+
+
 </body>
 </html>

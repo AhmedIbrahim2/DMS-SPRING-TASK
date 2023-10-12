@@ -11,9 +11,32 @@ import java.util.Date;
 @Builder
 public class Employee {
 
+
+
+    private Long codeEmployee;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codeEmployee;
+    private Long employeeId ;
+
+    public Employee(Long codeEmployee, Long employeeId, String name, LocalDate birthDate, String address, String phone, double salary, Department department) {
+        this.codeEmployee = codeEmployee;
+        this.employeeId = employeeId;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.phone = phone;
+        this.salary = salary;
+        this.department = department;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
 
     private String name;
 
@@ -29,15 +52,7 @@ public class Employee {
 
     }
 
-    public Employee(Long codeEmployee, String name, LocalDate birthDate, String address, String phone, double salary, Department department) {
-        this.codeEmployee = codeEmployee;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.address = address;
-        this.phone = phone;
-        this.salary = salary;
-        this.department = department;
-    }
+
 
     public Long getCodeEmployee() {
         return codeEmployee;

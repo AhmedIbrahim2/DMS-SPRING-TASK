@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/Department")
 public class DepartmentController1 {
@@ -43,6 +45,22 @@ public class DepartmentController1 {
             model.addAttribute("error", e.getMessage());
             return "/registerDepartment";
         }
+    }
+
+
+    @GetMapping("/search")
+    public String searchDepartments(@RequestParam(name = "name", required = false) String name,
+                                    Model model) {
+        List<DepartmentDto> departments;
+
+        if (name != null && !name.isEmpty()) {
+            departments = department_serviceImp.searchByName(name);
+        } else {
+            departments = department_serviceImp.getAllDepartment();
+        }
+
+        model.addAttribute("departments", departments);
+        return "department";
     }
 
     @PostMapping("/saves")

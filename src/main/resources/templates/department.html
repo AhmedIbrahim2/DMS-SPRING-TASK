@@ -3,10 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Department Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 </head>
-<body>
+<body class="container mt-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active text-white" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/Employee/getAllEmployee}">Employee</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/Department/getAllDepartment}">Department</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <h2>Department Page</h2>
 <a th:href="@{/Department/departmentRegister}" class="btn btn-primary">Add Department</a>
+<a th:href="@{/Department/getAllDepartment}" class="btn btn-primary ml-2">Show All Department</a>
+
+
+<form th:action="@{/Department/search}" method="get">
+    <label for="searchName">Search by Name:</label>
+    <input type="text" id="searchName" name="name" />
+    <button type="submit" class="btn btn-info">Search</button>
+</form>
 
 <table class="table">
     <thead>
@@ -19,7 +52,7 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Iterate over the list of employees -->
+    <!-- Iterate over the list of departments -->
     <tr th:each="department : ${departments}">
         <td th:text="${department.departmentId}"></td>
         <td th:text="${department.codeDepartment}"></td>
@@ -32,5 +65,6 @@
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

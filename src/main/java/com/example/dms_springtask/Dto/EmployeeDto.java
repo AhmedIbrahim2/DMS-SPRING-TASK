@@ -15,6 +15,8 @@ import java.util.Date;
 @Getter
 public class EmployeeDto{
 
+   private Long employeeId ;
+
     private Long codeEmployee;
 
     private String name;
@@ -33,6 +35,7 @@ public class EmployeeDto{
 
     public static EmployeeDto employeeToDto(Employee employee) {
         EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setEmployeeId(employee.getEmployeeId());
         employeeDto.setCodeEmployee(employee.getCodeEmployee());
         employeeDto.setName(employee.getName());
         employeeDto.setBirthDate(employee.getBirthDate());
@@ -51,6 +54,7 @@ public class EmployeeDto{
 
         Employee employee = new Employee();
         employee.setCodeEmployee(employeeDto.getCodeEmployee());
+        employee.setEmployeeId(employeeDto.getEmployeeId());
         employee.setName(employeeDto.getName());
         employee.setBirthDate(employeeDto.getBirthDate());
         employee.setAddress(employeeDto.getAddress());

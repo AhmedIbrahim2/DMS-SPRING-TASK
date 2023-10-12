@@ -24,10 +24,6 @@ public class EmployeeController1 {
     @Autowired
     Department_serviceImp department_serviceImp;
 
-    @GetMapping("/")
-    public String home(){
-        return "home";
-    }
 
     @GetMapping("/getAllEmployee")
     public String employeePage(Model model){
@@ -69,11 +65,14 @@ public class EmployeeController1 {
     }
 
     @PostMapping("/saves")
-    public String saveEmployee(@ModelAttribute EmployeeDto employeeDto) {
-        employee_serviceImp.edit(employeeDto.getCodeEmployee(),employeeDto);
-        return "redirect:/Employee/getAllEmployee";
+    public String saveEmployee(@ModelAttribute EmployeeDto employeeDto , Model model) {
+                employee_serviceImp.edit(employeeDto.getEmployeeId(), employeeDto);
+                return "redirect:/Employee/getAllEmployee";
+
 
     }
+
+
 
 
     @GetMapping("/search")
@@ -84,10 +83,10 @@ public class EmployeeController1 {
         if (name != null && !name.isEmpty()) {
             employees = employee_serviceImp.searchByName(name);
         } else {
-            employees = null;
+            employees = employee_serviceImp.getAllEmployees();
         }
 
-        model.addAttribute("employe", employees);
+        model.addAttribute("employees", employees);
         return "employee"; // Replace with the actual name of your employee page HTML template
     }
 

@@ -66,7 +66,7 @@ public class Employee_serviceImp implements Employee_service {
 
         if (optionalEmployee.isPresent()){
             Employee existingEmployee = optionalEmployee.get();
-            BeanUtils.copyProperties(employeeDto,existingEmployee,"codeEmployee");
+            BeanUtils.copyProperties(employeeDto,existingEmployee,"employeeId");
             employee_repository.save(existingEmployee);
             return EmployeeDto.employeeToDto(existingEmployee);
         }else {
@@ -74,8 +74,8 @@ public class Employee_serviceImp implements Employee_service {
         }
     }
 
-    public boolean isCodeEmployeeDuplicated(Long codeEmployee) {
-        return employee_repository.existsByCodeEmployee(codeEmployee);
+    public boolean isCodeEmployeeDuplicated(Long employeeId) {
+        return employee_repository.existsByCodeEmployee(employeeId);
     }
 
     @Override
@@ -100,8 +100,8 @@ public class Employee_serviceImp implements Employee_service {
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Long code) {
-        Optional<Employee> optionalEmployee = employee_repository.findById(code);
+    public EmployeeDto getEmployeeById(Long employeeId) {
+        Optional<Employee> optionalEmployee = employee_repository.findById(employeeId);
 
         if (optionalEmployee.isPresent()){
             return EmployeeDto.employeeToDto(optionalEmployee.get());

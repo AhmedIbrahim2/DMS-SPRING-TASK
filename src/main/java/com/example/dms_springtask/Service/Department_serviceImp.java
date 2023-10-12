@@ -113,4 +113,10 @@ public class Department_serviceImp implements Department_service {
     }
 
 
+    public List<DepartmentDto> searchByName(String name) {
+        List<Department> departmentEntities = department_repository.findByNameContainingIgnoreCase(name);
+        return departmentEntities.stream().map(DepartmentDto::departmentToDto).collect(Collectors.toList());
+    }
+
+
 }
