@@ -5,11 +5,9 @@ import com.example.dms_springtask.Dto.DepartmentDto;
 import com.example.dms_springtask.Exceptions.DuplicateCodeException;
 import com.example.dms_springtask.Exceptions.NotFoundException;
 import com.example.dms_springtask.Model.Department;
-import com.example.dms_springtask.Model.Employee;
-import com.example.dms_springtask.Repository.Department_Repository;
+import com.example.dms_springtask.Repository.DepartmentRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,20 +15,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class Department_serviceImp implements Department_service {
-
-    //get all
-    // get id
-    // save
-    //edit  only
-    // delete
+public class DepartmentServiceImp implements DepartmentService {
 
     @Autowired
-    Department_Repository department_repository;
+    DepartmentRepository departmentRepository;
 
     @Override
     public List<DepartmentDto> getAllDepartment() {
-        List<Department> departmentList = department_repository.findAll();
+        List<Department> departmentList = departmentRepository.findAll();
 
         return departmentList.
                 stream()
@@ -41,7 +33,7 @@ public class Department_serviceImp implements Department_service {
     @Override
     public DepartmentDto getDepartmentById(Long departmentId) {
 
-        Optional<Department> department = department_repository.findById(departmentId);
+        Optional<Department> department = departmentRepository.findById(departmentId);
 
         if (department.isPresent()) {
             return DepartmentDto.departmentToDto(department.get());
@@ -67,16 +59,16 @@ public class Department_serviceImp implements Department_service {
         }
             Department existingDepartment = DepartmentDto.dtoToDepartment(department);
             existingDepartment.setCode(department.getCodeDepartment());
-            Department savedDepartment = department_repository.save(existingDepartment);
+            Department savedDepartment = departmentRepository.save(existingDepartment);
             return DepartmentDto.departmentToDto(savedDepartment);
 //        }
     }
 
     @Override
     public String delete(Long departmentId) {
-        Optional<Department> optionalDepartment = department_repository.findById(departmentId);
+        Optional<Department> optionalDepartment = departmentRepository.findById(departmentId);
         if (optionalDepartment.isPresent()) {
-            department_repository.deleteById(departmentId);
+            departmentRepository.deleteById(departmentId);
             return "Deleted Successfully";
         } else {
             return null;
@@ -84,12 +76,12 @@ public class Department_serviceImp implements Department_service {
     }
 
     public boolean isCodeDuplicated(Long codeDepartment) {
-        return department_repository.existsByCodeDepartment(codeDepartment);
+        return departmentRepository.existsByCodeDepartment(codeDepartment);
     }
 
     @Override
-    public DepartmentDto edit(Long code, DepartmentDto departmentDto) {
-        Optional<Department> optionalDepartment = department_repository.findById(code);
+    public DepartmentDto edit(Long id, DepartmentDto departmentDto) {
+        Optional<Department> optionalDepartment = departmentRepository.findById(id);
 
 
 
@@ -97,14 +89,14 @@ public class Department_serviceImp implements Department_service {
             Department existingDepartment = optionalDepartment.get();
 
             Long newCode = departmentDto.getCodeDepartment();
-            Optional<Department> existingDepartmentWithNewCode = department_repository.findById(newCode);
+            Optional<Department> existingDepartmentWithNewCode = departmentRepository.findById(newCode);
 
             if (existingDepartmentWithNewCode.isPresent() && existingDepartmentWithNewCode.get().getCode() == departmentDto.getCodeDepartment()) {
                 throw new DuplicateCodeException("Code already exists for another department");
             }
             BeanUtils.copyProperties(departmentDto, existingDepartment, "departmentId");
             existingDepartment.setCode(departmentDto.getCodeDepartment());
-            department_repository.save(existingDepartment);
+            departmentRepository.save(existingDepartment);
             return DepartmentDto.departmentToDto(existingDepartment);
         } else {
             throw new NotFoundException("Department Not Found");
@@ -114,7 +106,7 @@ public class Department_serviceImp implements Department_service {
 
 
     public List<DepartmentDto> searchByName(String name) {
-        List<Department> departmentEntities = department_repository.findByNameContainingIgnoreCase(name);
+        List<Department> departmentEntities = departmentRepository.findByNameContainingIgnoreCase(name);
         return departmentEntities.stream().map(DepartmentDto::departmentToDto).collect(Collectors.toList());
     }
 

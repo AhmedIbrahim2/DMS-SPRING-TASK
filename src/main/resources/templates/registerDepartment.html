@@ -34,7 +34,7 @@
 <h2>Department Registration</h2>
 
 <!-- Display error if exists -->
-<div th:if="${error}" class="text-danger">Duplicated Code </div>
+<div th:if="${error}" class="text-danger">Department code already exists.</div>
 
 <!-- Department registration form -->
 <form action="/Department/save" method="post" class="mt-4">

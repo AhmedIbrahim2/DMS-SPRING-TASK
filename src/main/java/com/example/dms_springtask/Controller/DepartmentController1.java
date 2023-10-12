@@ -2,9 +2,8 @@ package com.example.dms_springtask.Controller;
 
 
 import com.example.dms_springtask.Dto.DepartmentDto;
-import com.example.dms_springtask.Dto.EmployeeDto;
 import com.example.dms_springtask.Exceptions.DuplicateCodeException;
-import com.example.dms_springtask.Service.Department_serviceImp;
+import com.example.dms_springtask.Service.DepartmentServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +17,12 @@ public class DepartmentController1 {
 
 
     @Autowired
-    Department_serviceImp department_serviceImp;
+    DepartmentServiceImp depService;
 
 
     @GetMapping("/getAllDepartment")
     public String departmentPage(Model model){
-        model.addAttribute("departments",department_serviceImp.getAllDepartment());
+        model.addAttribute("departments", depService.getAllDepartment());
         return "/department";
     }
 
@@ -36,10 +35,10 @@ public class DepartmentController1 {
     @PostMapping("/save")
     public String saveDepartment(@ModelAttribute DepartmentDto departmentDto, Model model) {
         try {
-            if (department_serviceImp.isCodeDuplicated(departmentDto.getCodeDepartment())) {
+            if (depService.isCodeDuplicated(departmentDto.getCodeDepartment())) {
                 throw new DuplicateCodeException("Department code already exists.");
             }
-            department_serviceImp.add(departmentDto);
+            depService.add(departmentDto);
             return "redirect:/Department/getAllDepartment";
         } catch (DuplicateCodeException e) {
             model.addAttribute("error", e.getMessage());
@@ -54,9 +53,9 @@ public class DepartmentController1 {
         List<DepartmentDto> departments;
 
         if (name != null && !name.isEmpty()) {
-            departments = department_serviceImp.searchByName(name);
+            departments = depService.searchByName(name);
         } else {
-            departments = department_serviceImp.getAllDepartment();
+            departments = depService.getAllDepartment();
         }
 
         model.addAttribute("departments", departments);
@@ -65,7 +64,7 @@ public class DepartmentController1 {
 
     @PostMapping("/saves")
     public String saveDepartments(@ModelAttribute DepartmentDto departmentDto) {
-            department_serviceImp.edit(departmentDto.getDepartmentId(),departmentDto);
+            depService.edit(departmentDto.getDepartmentId(),departmentDto);
            return "redirect:/Department/getAllDepartment";
 
     }
@@ -73,14 +72,14 @@ public class DepartmentController1 {
 
     @RequestMapping("/editDepartment/{codeDepartment}")
     public String editDepartment(@PathVariable("codeDepartment")Long codeDepartment , Model model){
-        DepartmentDto d = department_serviceImp.getDepartmentById(codeDepartment);
+        DepartmentDto d = depService.getDepartmentById(codeDepartment);
         model.addAttribute("Department",d);
         return "/EditDepartment";
     }
 
     @RequestMapping("/deleteDepartment/{codeDepartment}")
     public String deleteDepartment(@PathVariable("codeDepartment") Long codeDepartment){
-        department_serviceImp.delete(codeDepartment);
+        depService.delete(codeDepartment);
         return "redirect:/Department/getAllDepartment";
     }
 

@@ -1,13 +1,12 @@
 package com.example.dms_springtask.Service;
 
 import com.example.dms_springtask.Dto.DepartmentDto;
-import com.example.dms_springtask.Model.Department;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public interface Department_service {
+public interface DepartmentService {
 
     public DepartmentDto add(DepartmentDto department);
 

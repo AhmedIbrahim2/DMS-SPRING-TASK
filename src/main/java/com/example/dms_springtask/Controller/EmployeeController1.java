@@ -1,11 +1,10 @@
 package com.example.dms_springtask.Controller;
 
 
-import com.example.dms_springtask.Dto.DepartmentDto;
 import com.example.dms_springtask.Dto.EmployeeDto;
 import com.example.dms_springtask.Exceptions.DuplicateCodeException;
-import com.example.dms_springtask.Service.Department_serviceImp;
-import com.example.dms_springtask.Service.Employee_serviceImp;
+import com.example.dms_springtask.Service.DepartmentServiceImp;
+import com.example.dms_springtask.Service.EmployeeServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +18,15 @@ public class EmployeeController1 {
 
 
     @Autowired
-    Employee_serviceImp employee_serviceImp;
+    EmployeeServiceImp employeeServiceImp;
 
     @Autowired
-    Department_serviceImp department_serviceImp;
+    DepartmentServiceImp departmentServiceImp;
 
 
     @GetMapping("/getAllEmployee")
     public String employeePage(Model model){
-        model.addAttribute("employees",employee_serviceImp.getAllEmployees());
+        model.addAttribute("employees", employeeServiceImp.getAllEmployees());
         return "employee";
     }
 
@@ -35,16 +34,16 @@ public class EmployeeController1 {
 
     @GetMapping("/employeeRegister")
     public String Register(Model model){
-        model.addAttribute("department",department_serviceImp.getAllDepartment());
+        model.addAttribute("department", departmentServiceImp.getAllDepartment());
         return "/RegisterEmployee";
     }
 
 
     @RequestMapping("/editEmployee/{employeeId}")
     public String editEmployee(@PathVariable("employeeId")Long employeeId ,Model model){
-        EmployeeDto e = employee_serviceImp.getEmployeeById(employeeId);
+        EmployeeDto e = employeeServiceImp.getEmployeeById(employeeId);
         model.addAttribute("Employee",e);
-        model.addAttribute("departments",department_serviceImp.getAllDepartment());
+        model.addAttribute("departments", departmentServiceImp.getAllDepartment());
         return "/EditEmployee";
     }
 
@@ -52,21 +51,21 @@ public class EmployeeController1 {
     @PostMapping("/save")
     public String saveEmployees(@ModelAttribute EmployeeDto employeeDto, Model model) {
         try {
-            if (employee_serviceImp.isCodeEmployeeDuplicated(employeeDto.getCodeEmployee())) {
+            if (employeeServiceImp.isCodeEmployeeDuplicated(employeeDto.getCodeEmployee())) {
                 throw new DuplicateCodeException("Employee code already exists.");
             }
-            employee_serviceImp.add(employeeDto);
+            employeeServiceImp.add(employeeDto);
             return "redirect:/Employee/getAllEmployee";
         } catch (DuplicateCodeException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("departments", department_serviceImp.getAllDepartment());
+            model.addAttribute("departments", departmentServiceImp.getAllDepartment());
             return "/RegisterEmployee";
         }
     }
 
     @PostMapping("/saves")
     public String saveEmployee(@ModelAttribute EmployeeDto employeeDto , Model model) {
-                employee_serviceImp.edit(employeeDto.getEmployeeId(), employeeDto);
+                employeeServiceImp.edit(employeeDto.getEmployeeId(), employeeDto);
                 return "redirect:/Employee/getAllEmployee";
 
 
@@ -81,9 +80,9 @@ public class EmployeeController1 {
         List<EmployeeDto> employees;
 
         if (name != null && !name.isEmpty()) {
-            employees = employee_serviceImp.searchByName(name);
+            employees = employeeServiceImp.searchByName(name);
         } else {
-            employees = employee_serviceImp.getAllEmployees();
+            employees = employeeServiceImp.getAllEmployees();
         }
 
         model.addAttribute("employees", employees);
@@ -95,7 +94,7 @@ public class EmployeeController1 {
 
     @RequestMapping("/deleteEmployee/{codeEmployee}")
     public String deleteEmployee(@PathVariable("codeEmployee") Long codeEmployee){
-        employee_serviceImp.delete(codeEmployee);
+        employeeServiceImp.delete(codeEmployee);
         return "redirect:/Employee/getAllEmployee";
     }
 
