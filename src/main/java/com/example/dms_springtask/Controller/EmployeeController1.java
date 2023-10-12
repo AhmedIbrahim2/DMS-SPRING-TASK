@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/Employee")
 public class EmployeeController1 {
@@ -71,6 +73,22 @@ public class EmployeeController1 {
         employee_serviceImp.edit(employeeDto.getCodeEmployee(),employeeDto);
         return "redirect:/Employee/getAllEmployee";
 
+    }
+
+
+    @GetMapping("/search")
+    public String searchEmployees(@RequestParam(name = "name", required = false) String name,
+                                  Model model) {
+        List<EmployeeDto> employees;
+
+        if (name != null && !name.isEmpty()) {
+            employees = employee_serviceImp.searchByName(name);
+        } else {
+            employees = null;
+        }
+
+        model.addAttribute("employe", employees);
+        return "employee"; // Replace with the actual name of your employee page HTML template
     }
 
 

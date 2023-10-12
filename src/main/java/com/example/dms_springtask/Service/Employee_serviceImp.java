@@ -89,6 +89,16 @@ public class Employee_serviceImp implements Employee_service {
                 .collect(Collectors.toList());
     }
 
+    public List<EmployeeDto> searchByName(String name) {
+
+        List<Employee> employees = employee_repository.findByName(name);
+
+        // Convert entities to DTOs
+        return employees.stream()
+                .map(EmployeeDto::employeeToDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public EmployeeDto getEmployeeById(Long code) {
         Optional<Employee> optionalEmployee = employee_repository.findById(code);

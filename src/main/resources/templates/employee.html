@@ -8,6 +8,43 @@
 <h2>Employee Page</h2>
 <a th:href="@{/Employee/employeeRegister}" class="btn btn-primary">Add Employee</a>
 
+<a th:href="@{/Employee/getAllEmployee}" class="btn btn-primary">Show All Employee</a>
+
+
+<form th:action="@{/Employee/search}" method="get">
+    <label for="searchName">Search by Name:</label>
+    <input type="text" id="searchName" name="name" />
+    <button type="submit" class="btn btn-info">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Birthdate</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Salary</th>
+        <th>Department</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of employees -->
+    <tr th:each="emp : ${employe}">
+        <td th:text="${emp.codeEmployee}"></td>
+        <td th:text="${emp.name}"></td>
+        <td th:text="${emp.birthDate}"></td>
+        <td th:text="${emp.address}"></td>
+        <td th:text="${emp.phone}"></td>
+        <td th:text="${emp.salary}"></td>
+        <td th:text="${emp.departmentName}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
 <table class="table">
     <thead>
     <tr>
