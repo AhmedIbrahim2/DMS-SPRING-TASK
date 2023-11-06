@@ -1,7 +1,6 @@
 package com.example.dms_springtask.Dto;
 
 import com.example.dms_springtask.Model.Department;
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Builder
@@ -34,7 +33,7 @@ public  class DepartmentDto {
                 .departmentId(departmentDto.getDepartmentId())
                 .codeDepartment(departmentDto.getCodeDepartment())
                 .name(departmentDto.getName())
-                .Description(departmentDto.getDescription())
+                .description(departmentDto.getDescription())
                 .build();
     }
 

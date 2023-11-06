@@ -82,18 +82,26 @@ public class DepartmentServiceImp implements DepartmentService {
     @Override
     public DepartmentDto edit(Long id, DepartmentDto departmentDto) {
         Optional<Department> optionalDepartment = departmentRepository.findById(id);
-
+          // exist : true
+          // new code :
+          // compare with exist
 
 
         if (optionalDepartment.isPresent()) {
             Department existingDepartment = optionalDepartment.get();
 
-            Long newCode = departmentDto.getCodeDepartment();
-            Optional<Department> existingDepartmentWithNewCode = departmentRepository.findById(newCode);
+            if (existingDepartment.getCodeDepartment() != departmentDto.getCodeDepartment()){
+                Optional<Department> department = departmentRepository.findByCodeDepartment(departmentDto.getCodeDepartment());
 
-            if (existingDepartmentWithNewCode.isPresent() && existingDepartmentWithNewCode.get().getCode() == departmentDto.getCodeDepartment()) {
-                throw new DuplicateCodeException("Code already exists for another department");
+                if (department.isPresent()){
+
+                    throw new DuplicateCodeException("this code is Duplicated");
+                }
+
             }
+
+
+
             BeanUtils.copyProperties(departmentDto, existingDepartment, "departmentId");
             existingDepartment.setCode(departmentDto.getCodeDepartment());
             departmentRepository.save(existingDepartment);
@@ -107,6 +115,16 @@ public class DepartmentServiceImp implements DepartmentService {
 
     public List<DepartmentDto> searchByName(String name) {
         List<Department> departmentEntities = departmentRepository.findByNameContainingIgnoreCase(name);
+        return departmentEntities.stream().map(DepartmentDto::departmentToDto).collect(Collectors.toList());
+    }
+
+    public List<DepartmentDto> searchByNameAndDescription(String name , String description) {
+        List<Department> departmentEntities = departmentRepository.findByNameAndDescriptionContainingIgnoreCase(name,description);
+        return departmentEntities.stream().map(DepartmentDto::departmentToDto).collect(Collectors.toList());
+    }
+
+    public List<DepartmentDto> searchByDescription(String description) {
+        List<Department> departmentEntities = departmentRepository.findByDescriptionContainingIgnoreCase(description);
         return departmentEntities.stream().map(DepartmentDto::departmentToDto).collect(Collectors.toList());
     }
 

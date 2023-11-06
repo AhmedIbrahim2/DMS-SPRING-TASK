@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,13 +50,25 @@ public class DepartmentController1 {
 
     @GetMapping("/search")
     public String searchDepartments(@RequestParam(name = "name", required = false) String name,
+                                    @RequestParam(name = "description",required = false) String description,
                                     Model model) {
         List<DepartmentDto> departments;
 
-        if (name != null && !name.isEmpty()) {
+        if (!name.isEmpty() && !description.isEmpty()) {
+            departments = depService.searchByNameAndDescription(name, description);
+            System.out.println("Name and description");
+
+        } else if (!description.isEmpty() ){
+          departments = depService.searchByDescription(description);
+            System.out.println("Description");
+
+        } else if (!name.isEmpty() ){
             departments = depService.searchByName(name);
-        } else {
-            departments = depService.getAllDepartment();
+            System.out.println("Name");
+        }else {
+            departments = new ArrayList<>();
+            System.out.println("Else");
+
         }
 
         model.addAttribute("departments", departments);
@@ -63,11 +76,23 @@ public class DepartmentController1 {
     }
 
     @PostMapping("/saves")
-    public String saveDepartments(@ModelAttribute DepartmentDto departmentDto) {
+    public String saveDepartments(@ModelAttribute DepartmentDto departmentDto , Model model) {
+        try {
             depService.edit(departmentDto.getDepartmentId(),departmentDto);
-           return "redirect:/Department/getAllDepartment";
+            System.out.println("Try");
+
+            return "redirect:/Department/getAllDepartment";
+
+        } catch (Exception e) {
+            System.out.println("catch");
+            model.addAttribute("error", e.getMessage());
+            return "/EditDepartment";
+
+        }
 
     }
+
+
 
 
     @RequestMapping("/editDepartment/{codeDepartment}")

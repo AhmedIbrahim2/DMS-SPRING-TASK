@@ -18,6 +18,13 @@ class Department{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long departmentId;
 
+    public Long getCodeDepartment() {
+        return codeDepartment;
+    }
+
+    public void setCodeDepartment(Long codeDepartment) {
+        this.codeDepartment = codeDepartment;
+    }
 
     private Long codeDepartment ;
     public Long getDepartmentId() {
@@ -31,7 +38,7 @@ class Department{
     private String name ;
 
     @Column(nullable = false)
-   private String Description;
+   private String description;
 
     @OneToMany(mappedBy = "department")
     List<Employee> employeeList;
@@ -41,7 +48,7 @@ class Department{
         this.codeDepartment = codeDepartment;
         this.departmentId = departmentId;
         this.name = name;
-        Description = description;
+        this.description = description;
         this.employeeList = employeeList;
     }
 
@@ -65,11 +72,11 @@ class Department{
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public List<Employee> getEmployeeList() {
